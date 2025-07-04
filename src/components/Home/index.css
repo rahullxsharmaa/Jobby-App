@@ -1,0 +1,35 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+.main-home-div {
+  height: 92vh;
+  width: 100%;
+  background-image: url('https://assets.ccbp.in/frontend/react-js/home-lg-bg.png');
+  background-size: cover;
+}
+.home-div {
+  width: 40%;
+  height: 50%;
+  color: white;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.home-div h1 {
+  font-size: 70px;
+  font-weight: bold;
+}
+.home-div p {
+  font-size: 20px;
+}
+.home-div button {
+  color: white;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 4px;
+  height: 35px;
+  width: 80px;
+}
