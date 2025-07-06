@@ -1,0 +1,41 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+.result {
+  background-color: #262624;
+  color: white;
+  padding: 30px;
+  margin: 5px;
+  border-radius: 10px;
+}
+.logo {
+  height: 50px;
+  margin-right: 10px;
+}
+.job-title {
+  font-size: 20px;
+}
+.description {
+  font-size: 15px;
+}
+.job-info-container {
+  display: flex;
+}
+.location-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.location-job-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.location-job-type p {
+  margin: 5px;
+}
+.salary-div p {
+  font-size: 15px;
+}
