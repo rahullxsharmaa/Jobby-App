@@ -1,82 +1,146 @@
 * {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
-.main-job-container {
-  background-color: black;
-  min-height: 100vh;
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0f0f0f;
+  color: #f1f1f1;
 }
+
+.main-job-container {
+  background-color: #0f0f0f;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
 .job-div {
-  padding-top: 10px;
   display: flex;
   width: 90%;
-  margin: auto;
-  background-color: black;
-  color: white;
+  margin: 20px auto;
+  gap: 20px;
 }
+
+.left-job-div {
+  width: 280px;
+}
+
+.right-job-div {
+  flex: 1;
+}
+
 .name-card {
   background-image: url('https://assets.ccbp.in/frontend/react-js/profile-bg.png');
   background-size: cover;
-  width: 250px;
-  height: 220px;
   border-radius: 10px;
-  padding: 10px;
-  margin: 10px 0px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: flex-start;
-  justify-content: center;
+  margin-bottom: 20px;
 }
-.job-designation {
-  color: black;
-}
+
 .profile-pic {
-  font-size: 50px;
-  color: black;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  margin-bottom: 10px;
 }
-.name-card {
-  padding: 10px;
-}
+
 .name-card h1 {
+  font-size: 20px;
   color: #6366f1;
-  font-weight: 400;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
+
 .name-card p {
-  font-size: 15px;
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 500;
 }
-.employment-types form div {
-  margin: 10px 0px;
+
+.job-designation {
+  color: #1e293b;
+  font-size: 13px;
+  margin-top: 5px;
 }
-.salary-range form div {
-  margin: 10px 0px;
-}
+
 hr {
-  margin: 20px 0px;
+  border: 0.5px solid #334155;
+  margin: 20px 0;
 }
+
+.employment-types p,
+.salary-range p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.employment-types form div,
+.salary-range form div {
+  margin-bottom: 12px;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: #6366f1;
+  margin-right: 10px;
+}
+
+label {
+  font-size: 14px;
+  color: #e2e8f0;
+}
+
 .search-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 260px;
-  background-color: #262624;
-  margin-left: 5px;
+  width: 100%;
+  max-width: 400px;
+  background-color: #1e1e1e;
+  border-radius: 6px;
+  padding: 5px 10px;
+  margin-bottom: 20px;
 }
 
 .search-container input {
-  height: 30px;
-  width: 250px;
-  padding: 10px;
-  background-color: black;
+  flex: 1;
+  background-color: transparent;
+  border: none;
   color: white;
-  border: 1px solid #262624;
-  border-radius: 4px;
+  font-size: 15px;
+  padding: 8px;
+  outline: none;
 }
+
 .search-icon {
-  font-size: 25px;
-  color: white;
-  width: 40px;
+  font-size: 24px;
+  color: #cbd5e1;
+  cursor: pointer;
 }
-.right-job-div {
-  margin: 10px;
+
+.result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.error-msg {
+  color: #f87171;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 40px;
 }

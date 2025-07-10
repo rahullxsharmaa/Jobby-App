@@ -4,24 +4,34 @@ import {BsBriefcaseFill} from 'react-icons/bs'
 
 import './index.css'
 
-const ResultSection = () => {
+const ResultSection = props => {
+  const {
+    companyLogoUrl,
+    employmentType,
+    id,
+    jobDescription,
+    location,
+    packagePerAnnum,
+    rating,
+    title,
+  } = props
   return (
     <div className="result">
       <div className="job-info-container">
         <div>
           <img
             className="logo"
-            src="https://assets.ccbp.in/frontend/react-js/jobby-app/facebook-img.png"
-            alt="logo"
+            src={companyLogoUrl}
+            alt="job details company logo"
           />
         </div>
         <div>
-          <h1 className="job-title">Devops Engineer</h1>
+          <h1 className="job-title">{title}</h1>
           <p>
             <span>
               <FaStar />
             </span>
-            4
+            {rating}
           </p>
         </div>
       </div>
@@ -31,29 +41,23 @@ const ResultSection = () => {
             <span>
               <MdLocationOn />
             </span>
-            Delhi
+            {location}
           </p>
           <p>
             <span>
               <BsBriefcaseFill />
             </span>
-            Internship
+            {employmentType}
           </p>
         </div>
         <div className="salary-div">
-          <p>10 LPA</p>
+          <p>{packagePerAnnum}</p>
         </div>
       </div>
       <hr />
       <div>
         <p className="description">Description</p>
-        <p className="description">
-          We’re in search of a Back-End Software Engineer that specializes in
-          server-side components. In this role, you’ll primarily work in NodeJs,
-          SQL Lite, Python, AWS and GO and will bring a depth of knowledge on
-          basic algorithms and data structures. As a Back-End Engineer, you
-          might be architecting new features for our customers.
-        </p>
+        <p className="description">{jobDescription}</p>
       </div>
     </div>
   )

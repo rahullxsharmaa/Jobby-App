@@ -54,3 +54,13 @@
   width: 200px;
   margin: 10px;
 }
+.error-msg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.error-msg {
+  color: red;
+  font-size: 10px;
+  font-weight: 400;
+}

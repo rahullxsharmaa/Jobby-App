@@ -1,4 +1,10 @@
+import {Route, Switch, Redirect} from 'react-router-dom'
+
+import Login from './components/Login/index.js'
 import Home from './components/Home/index.js'
+import Jobs from './components/Jobs/index.js'
+import ProtectedRoute from './components/ProtectedRoute/index.js'
+import PageNotFound from './components/PageNotFound/index.js'
 import './App.css'
 
 const employmentTypesList = [
@@ -39,10 +45,13 @@ const salaryRangesList = [
   },
 ]
 
-
 const App = () => (
-  <div>
-    <Home />
-  </div>
+  <Switch>
+    <Route exact path="/login" component={Login} />
+    <ProtectedRoute exact path="/" component={Home} />
+    <ProtectedRoute exact path="/jobs" component={Jobs} />
+    <Route path="/not-found" component={PageNotFound} />
+    <Redirect to="not-found" />
+  </Switch>
 )
 export default App

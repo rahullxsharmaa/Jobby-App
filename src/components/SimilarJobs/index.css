@@ -1,0 +1,38 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+.similar-jobs {
+  background-color: #64748b;
+  color: white;
+  height: auto;
+  width: 250px;
+  border-radius: 10px;
+  margin: 10px;
+}
+.logo {
+  height: 60px;
+}
+.company-details {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+.similar-jobs-desc {
+  padding: 10px;
+}
+.similar-jobs-desc h1 {
+  font-size: 20px;
+}
+.similar-jobs-desc p {
+  font-size: 15px;
+}
+.similar-jobs-desc div {
+  padding: 5px;
+  display: flex;
+}
+.similar-jobs-desc div p {
+  margin: 5px;
+}
