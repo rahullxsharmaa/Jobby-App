@@ -32,22 +32,22 @@ Jobby App is a responsive job search web application built using **React.js**. I
 
 ## 🖼️ Screenshots
 
-<img width="1202" height="761" alt="image" src="https://github.com/user-attachments/assets/afb2b173-261f-41ce-a908-f68a9d528957" />
 
-<img width="1908" height="956" alt="image" src="https://github.com/user-attachments/assets/048f2e7d-21a2-41c2-a08a-79e43d410e37" />
 
-<img width="1363" height="881" alt="image" src="https://github.com/user-attachments/assets/74243c23-cc5d-4d5d-a890-10c3a9c09aaa" />
 
 
 
 ### 🔐 Login Page
 User authentication with JWT token.
+<img width="1202" height="761" alt="image" src="https://github.com/user-attachments/assets/afb2b173-261f-41ce-a908-f68a9d528957" />
 
 ### 🏠 Jobs Page
 Search, filter, and explore jobs by type and salary.
+<img width="1908" height="956" alt="image" src="https://github.com/user-attachments/assets/048f2e7d-21a2-41c2-a08a-79e43d410e37" />
 
 ### 📄 Job Details
 Detailed job view with description, skills, company culture, and similar jobs.
+<img width="1363" height="881" alt="image" src="https://github.com/user-attachments/assets/74243c23-cc5d-4d5d-a890-10c3a9c09aaa" />
 
 ---
 
