@@ -8,7 +8,7 @@ import {FiLogOut} from 'react-icons/fi'
 import './index.css'
 
 class Navbar extends Component {
-  onClickLogout = props => {
+  onClickLogout = () => {
     const {history} = this.props
     Cookies.remove('jwt_token')
     history.replace('/login')
@@ -29,32 +29,35 @@ class Navbar extends Component {
           <ul>
             <li>
               <Link to="/">
-                <button>Home</button>
+                <button type="button">Home</button>
               </Link>
             </li>
             <li>
               <Link to="/jobs">
-                <button>Jobs</button>
+                <button type="button">Jobs</button>
               </Link>
             </li>
+            <li />
           </ul>
         </div>
         <div className="logout-div">
-          <button onClick={this.onClickLogout}>Logout</button>
+          <button type="button" onClick={this.onClickLogout}>
+            Logout
+          </button>
         </div>
         <div className="icons-div">
           <Link to="/">
-            <button>
+            <button type="button">
               <AiFillHome />
             </button>
           </Link>
           <Link to="/jobs">
-            <button>
+            <button type="button">
               <BsBriefcaseFill />
             </button>
           </Link>
 
-          <button onClick={this.onClickLogout}>
+          <button type="button" onClick={this.onClickLogout}>
             <FiLogOut />
           </button>
         </div>

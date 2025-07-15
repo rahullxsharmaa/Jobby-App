@@ -4,54 +4,48 @@ import {BsFillBriefcaseFill} from 'react-icons/bs'
 
 import './index.css'
 
-const SimilarJobs = () => {
+const SimilarJobs = props => {
+  const {jobDetails} = props
+  const {
+    companyLogoUrl,
+    title,
+    rating,
+    jobDescription,
+    location,
+    employmentType,
+  } = jobDetails
+
   return (
     <div className="similar-jobs">
       <div className="company-details">
         <img
-          src="https://assets.ccbp.in/frontend/react-js/jobby-app/facebook-img.png"
-          alt="sample"
+          src={companyLogoUrl}
+          alt="similar job company logo"
           className="logo"
         />
         <div>
-          <p>Backend Engineer</p>
+          <h3>{title}</h3>
           <p>
-            <span>
-              <FaStar />
-            </span>
-            4
+            <FaStar className="star-icon" /> {rating}
           </p>
         </div>
       </div>
+
       <div className="similar-jobs-desc">
-        <h1>Description</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-          commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
-          et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
-          felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
-          consequat massa quis enim. Donec pede justo, fringilla vel, aliquet
-          nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
-          venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-          Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean
-          vulputate eleifend tellus. Aenean leo ligula,
-        </p>
-        <div>
+        <h4>Description</h4>
+        <p>{jobDescription}</p>
+
+        <div className="location-employment">
           <p>
-            <span>
-              <IoLocation />
-            </span>
-            Remote
+            <IoLocation className="location-icon" /> {location}
           </p>
           <p>
-            <span>
-              <BsFillBriefcaseFill />
-            </span>
-            Internship
+            <BsFillBriefcaseFill className="briefcase-icon" /> {employmentType}
           </p>
         </div>
       </div>
     </div>
   )
 }
+
 export default SimilarJobs

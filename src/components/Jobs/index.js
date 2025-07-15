@@ -2,10 +2,9 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 
-import Navbar from '../Navbar/index.js'
-import ResultSection from '../ResultSection/index.js'
-
-import {IoMdSearch} from 'react-icons/io'
+import {BsSearch} from 'react-icons/bs'
+import Navbar from '../Navbar'
+import ResultSection from '../ResultSection'
 
 import './index.css'
 
@@ -15,6 +14,44 @@ const apiStatusConstants = {
   failure: 'FAILURE',
   inProgress: 'IN_PROGRESS',
 }
+
+const employmentTypesList = [
+  {
+    label: 'Full Time',
+    employmentTypeId: 'FULLTIME',
+  },
+  {
+    label: 'Part Time',
+    employmentTypeId: 'PARTTIME',
+  },
+  {
+    label: 'Freelance',
+    employmentTypeId: 'FREELANCE',
+  },
+  {
+    label: 'Internship',
+    employmentTypeId: 'INTERNSHIP',
+  },
+]
+
+const salaryRangesList = [
+  {
+    salaryRangeId: '1000000',
+    label: '10 LPA and above',
+  },
+  {
+    salaryRangeId: '2000000',
+    label: '20 LPA and above',
+  },
+  {
+    salaryRangeId: '3000000',
+    label: '30 LPA and above',
+  },
+  {
+    salaryRangeId: '4000000',
+    label: '40 LPA and above',
+  },
+]
 
 class Jobs extends Component {
   state = {
@@ -33,11 +70,7 @@ class Jobs extends Component {
   }
 
   updatingSearchBox = event => {
-    const {search} = this.state
-    this.setState({
-      search: event.target.value,
-    })
-    console.log(search)
+    this.setState({search: event.target.value})
   }
 
   loadingFunction = () => (
@@ -50,19 +83,23 @@ class Jobs extends Component {
 
   profileFailureView = () => (
     <div>
-      <button onClick={this.fetchingUserDetails}>Retry</button>
+      <button type="button" onClick={this.fetchingUserDetails}>
+        Retry
+      </button>
     </div>
   )
 
   jobListFailureView = () => (
-    <div>
+    <div className="job-failure-view">
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt="failure view"
       />
       <h1>Oops! Something Went Wrong</h1>
       <p>We cannot seem to find the page you are looking for</p>
-      <button onClick={this.fetchingAllJobs}>Retry</button>
+      <button type="button" onClick={this.fetchingAllJobs}>
+        Retry
+      </button>
     </div>
   )
 
@@ -90,10 +127,11 @@ class Jobs extends Component {
           profileDetails: updatedProfileDetails,
           profileLoadingStatus: apiStatusConstants.success,
         })
+      } else {
+        this.setState({profileLoadingStatus: apiStatusConstants.failure})
       }
     } catch (error) {
       this.setState({profileLoadingStatus: apiStatusConstants.failure})
-      console.error('Error fetching profile:', error)
     }
   }
 
@@ -144,22 +182,31 @@ class Jobs extends Component {
       const updatedEmployment = checked
         ? [...prevState.employmentType, value]
         : prevState.employmentType.filter(each => each !== value)
-
       return {employmentType: updatedEmployment}
     }, this.fetchingAllJobs)
   }
 
   gettingSalaryRange = event => {
-    this.setState(
-      {
-        salaryRange: event.target.value,
-      },
-      this.fetchingAllJobs,
-    )
+    this.setState({salaryRange: event.target.value}, this.fetchingAllJobs)
   }
 
   renderJobList = () => {
     const {jobsList} = this.state
+
+    if (jobsList.length === 0) {
+      return (
+        <div className="no-jobs-container">
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+            alt="no jobs"
+            className="no-jobs-img"
+          />
+          <h1>No Jobs Found</h1>
+          <p>We could not find any jobs. Try other filters.</p>
+        </div>
+      )
+    }
+
     return (
       <div className="result-container">
         {jobsList.map(eachJob => (
@@ -195,6 +242,7 @@ class Jobs extends Component {
       </div>
     )
   }
+
   renderJobProfile = () => {
     const {profileLoadingStatus} = this.state
 
@@ -225,7 +273,7 @@ class Jobs extends Component {
       case apiStatusConstants.success:
         return this.renderJobList()
       case apiStatusConstants.failure:
-        return <div className="error-msg">{this.jobListFailureView()}</div>
+        return this.jobListFailureView()
       default:
         return null
     }
@@ -242,94 +290,38 @@ class Jobs extends Component {
             <hr />
             <div className="employment-types">
               <p>Type of Employment</p>
-              <form>
-                <div>
-                  <input
-                    id="fullTime"
-                    type="checkbox"
-                    name="employment"
-                    value="FULLTIME"
-                    onChange={this.gettingEmploymentType}
-                  />
-                  <label htmlFor="fullTime">Full Time</label>
-                </div>
-                <div>
-                  <input
-                    id="partTime"
-                    type="checkbox"
-                    name="employment"
-                    value="PARTTIME"
-                    onChange={this.gettingEmploymentType}
-                  />
-                  <label htmlFor="partTime">Part Time</label>
-                </div>
-                <div>
-                  <input
-                    id="freelance"
-                    type="checkbox"
-                    name="employment"
-                    value="FREELANCE"
-                    onChange={this.gettingEmploymentType}
-                  />
-                  <label htmlFor="freelance">Freelance</label>
-                </div>
-                <div>
-                  <input
-                    id="internship"
-                    type="checkbox"
-                    name="employment"
-                    value="INTERNSHIP"
-                    onChange={this.gettingEmploymentType}
-                  />
-                  <label htmlFor="internship">Internship</label>
-                </div>
-              </form>
+              <ul>
+                {employmentTypesList.map(type => (
+                  <li key={type.employmentTypeId}>
+                    <input
+                      id={type.employmentTypeId}
+                      type="checkbox"
+                      name="employment"
+                      value={type.employmentTypeId}
+                      onChange={this.gettingEmploymentType}
+                    />
+                    <label htmlFor={type.employmentTypeId}>{type.label}</label>
+                  </li>
+                ))}
+              </ul>
             </div>
             <hr />
             <div className="salary-range">
               <p>Salary Range</p>
-              <form>
-                <div>
-                  <input
-                    type="radio"
-                    id="10LPA"
-                    value="1000000"
-                    onChange={this.gettingSalaryRange}
-                    name="salary"
-                  />
-                  <label htmlFor="10LPA">10 LPA and above</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="20LPA"
-                    value="2000000"
-                    onChange={this.gettingSalaryRange}
-                    name="salary"
-                  />
-                  <label htmlFor="20LPA">20 LPA and above</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="30LPA"
-                    value="3000000"
-                    onChange={this.gettingSalaryRange}
-                    name="salary"
-                  />
-                  <label htmlFor="30LPA">30 LPA and above</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="40LPA"
-                    value="4000000"
-                    onChange={this.gettingSalaryRange}
-                    name="salary"
-                  />
-                  <label htmlFor="40LPA">40 LPA and above</label>
-                </div>
-              </form>
+              <ul>
+                {salaryRangesList.map(range => (
+                  <li key={range.salaryRangeId}>
+                    <input
+                      type="radio"
+                      id={range.salaryRangeId}
+                      value={range.salaryRangeId}
+                      onChange={this.gettingSalaryRange}
+                      name="salary"
+                    />
+                    <label htmlFor={range.salaryRangeId}>{range.label}</label>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="right-job-div">
@@ -338,14 +330,16 @@ class Jobs extends Component {
                 type="search"
                 placeholder="Search"
                 value={search}
-                onChange={e => this.setState({search: e.target.value})}
+                onChange={this.updatingSearchBox}
                 onKeyDown={this.handleSearchKeyPress}
               />
-
-              <IoMdSearch
+              <button
                 onClick={this.fetchingAllJobs}
-                className="search-icon"
-              />
+                type="button"
+                data-testid="searchButton"
+              >
+                <BsSearch className="search-icon" />
+              </button>
             </div>
             {this.renderJobContent()}
           </div>

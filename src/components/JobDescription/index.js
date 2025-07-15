@@ -1,126 +1,223 @@
-import {FaStar} from 'react-icons/fa'
+import {Component} from 'react'
+import {FaStar, FaExternalLinkAlt} from 'react-icons/fa'
 import {IoLocation} from 'react-icons/io5'
-import {FaExternalLinkAlt} from 'react-icons/fa'
 import {BsBriefcaseFill} from 'react-icons/bs'
+import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 
-import Navbar from '../Navbar/index.js'
-import Skill from '../Skill/index.js'
+import Navbar from '../Navbar'
+import Skill from '../Skill'
+import SimilarJobs from '../SimilarJobs'
 
 import './index.css'
 
-const JobDescription = () => {
-  return (
-    <div>
-      <Navbar />
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  inProgress: 'IN_PROGRESS',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+}
+
+class JobDescription extends Component {
+  state = {
+    jobDetails: {},
+    skills: [],
+    lifeAtCompany: {},
+    similarJobs: [],
+    apiStatus: apiStatusConstants.initial,
+  }
+
+  componentDidMount() {
+    const {match} = this.props
+    const {params} = match
+    const {id} = params
+    this.fetchJobDetails(id)
+  }
+
+  fetchJobDetails = async id => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
+    const jwtToken = Cookies.get('jwt_token')
+    const url = `https://apis.ccbp.in/jobs/${id}`
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+
+    const response = await fetch(url, options)
+
+    if (response.ok) {
+      const data = await response.json()
+
+      const jobDetails = {
+        companyLogoUrl: data.job_details.company_logo_url,
+        companyWebsiteUrl: data.job_details.company_website_url,
+        employmentType: data.job_details.employment_type,
+        id: data.job_details.id,
+        jobDescription: data.job_details.job_description,
+        location: data.job_details.location,
+        packagePerAnnum: data.job_details.package_per_annum,
+        rating: data.job_details.rating,
+        title: data.job_details.title,
+      }
+
+      const skills = data.job_details.skills.map(skill => ({
+        name: skill.name,
+        imageUrl: skill.image_url,
+      }))
+
+      const lifeAtCompany = {
+        description: data.job_details.life_at_company.description,
+        imageUrl: data.job_details.life_at_company.image_url,
+      }
+
+      const similarJobs = data.similar_jobs.map(job => ({
+        companyLogoUrl: job.company_logo_url,
+        employmentType: job.employment_type,
+        id: job.id,
+        jobDescription: job.job_description,
+        location: job.location,
+        rating: job.rating,
+        title: job.title,
+      }))
+
+      this.setState({
+        jobDetails,
+        skills,
+        lifeAtCompany,
+        similarJobs,
+        apiStatus: apiStatusConstants.success,
+      })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
+    }
+  }
+
+  renderLoadingView = () => (
+    <div className="loader-container" data-testid="loader">
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </div>
+  )
+
+  renderJobDetails = () => {
+    const {jobDetails, skills, lifeAtCompany, similarJobs} = this.state
+    const {
+      companyLogoUrl,
+      title,
+      rating,
+      location,
+      employmentType,
+      packagePerAnnum,
+      jobDescription,
+      companyWebsiteUrl,
+    } = jobDetails
+
+    return (
       <div className="job-desc-div">
         <div className="job-details">
           <img
-            src="https://assets.ccbp.in/frontend/react-js/jobby-app/facebook-img.png"
-            alt="sample"
+            src={companyLogoUrl}
+            alt="job details company logo"
             className="logo"
           />
           <div>
-            <h1>Frontend Engineer</h1>
+            <h1>{title}</h1>
             <p>
-              <span>
-                <FaStar />
-              </span>
-              4
+              <FaStar /> {rating}
             </p>
           </div>
         </div>
+
         <div className="salary-location">
           <div>
             <p>
-              <span>
-                <IoLocation />
-              </span>
-              Mumbai
+              <IoLocation /> {location}
             </p>
             <p>
-              <span>
-                <BsBriefcaseFill />
-              </span>
-              Freelance
+              <BsBriefcaseFill /> {employmentType}
             </p>
           </div>
-          <div>28 LPA</div>
+          <div>{packagePerAnnum}</div>
         </div>
+
         <hr />
+
         <div className="description">
-          <div>
+          <div className="description-header">
             <h1>Description</h1>
-            <p>
-              <a href="#">
-                Visit
-                <span>
-                  <FaExternalLinkAlt />
-                </span>
-              </a>
-            </p>
+            <a href={companyWebsiteUrl} target="_blank" rel="noreferrer">
+              Visit <FaExternalLinkAlt />
+            </a>
           </div>
-          <div className="description-para-container">
-            <p>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-              commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-              penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-              Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-              sem. Nulla consequat massa quis enim. Donec pede justo, fringilla
-              vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-              imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-              mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
-              semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
-              porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem
-              ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus
-              viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean
-              imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper
-              ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus,
-              tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-              adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus
-              pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-              tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam
-              quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis
-              leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis
-              magna. Sed consequat, leo eget bibendum sodales, augue velit
-              cursus nunc,
-            </p>
-          </div>
+          <p className="description-para">{jobDescription}</p>
         </div>
+
         <div className="skills-container">
           <h1>Skills</h1>
-          <div>
-            <Skill />
-          </div>
+          <ul className="skills-list">
+            {skills.map(skill => (
+              <li key={skill.name}>
+                <Skill logo={skill.imageUrl} skill={skill.name} />
+              </li>
+            ))}
+          </ul>
         </div>
+
         <div className="life-at-company">
           <h1>Life at Company</h1>
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-            aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-            imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-            mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
-            semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
-            porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem
-            ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra
-            nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet.
-            Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
-            nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
-            condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem
-            neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-            hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus.
-            Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante.
-            Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed
-            fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed
-            consequat, leo eget bibendum sodales, augue velit cursus nunc
-          </p>
+          <div className="life-company-content">
+            <p>{lifeAtCompany.description}</p>
+            <img src={lifeAtCompany.imageUrl} alt="life at company" />
+          </div>
+        </div>
+
+        <div className="similar-jobs-container">
+          <h1>Similar Jobs</h1>
+          <ul className="similar-jobs-list">
+            {similarJobs.map(job => (
+              <li key={job.id}>
+                <SimilarJobs jobDetails={job} />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
+    )
+  }
+
+  renderFailureView = () => (
+    <div className="failure-view">
+      <h1>Something went wrong</h1>
+      <button type="button" onClick={this.componentDidMount}>
+        Retry
+      </button>
     </div>
   )
+
+  renderFinalView = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingView()
+      case apiStatusConstants.success:
+        return this.renderJobDetails()
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Navbar />
+        {this.renderFinalView()}
+      </div>
+    )
+  }
 }
 
 export default JobDescription

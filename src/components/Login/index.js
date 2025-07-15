@@ -1,6 +1,5 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
-import {Redirect} from 'react-router-dom'
 
 import './index.css'
 
@@ -69,7 +68,7 @@ class Login extends Component {
                 id="userName"
                 type="text"
                 value={username}
-                placeholder="Username"
+                placeholder="rahul"
               />
             </div>
             <div className="credential">
@@ -79,7 +78,7 @@ class Login extends Component {
                 id="password"
                 type="password"
                 value={password}
-                placeholder="Password"
+                placeholder="rahul@2021"
               />
             </div>
             <div>
